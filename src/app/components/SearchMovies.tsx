@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import FilmBlock from "./filmblock";
 
-const API_KEY = "9b702a6b89b0278738dab62417267c49";
+const API_KEY = "9b702a6b89b0278738dab62417267c49"; 
 
 interface Movie {
   id: number;
@@ -26,7 +26,7 @@ export default function SearchMovies() {
     setLoading(true);
     try {
       const res = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=ru-RU`
       );
       const data = await res.json();
       setMovies(data.results);
@@ -48,7 +48,7 @@ export default function SearchMovies() {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
           query
-        )}`
+        )}&language=ru-RU`
       );
       const data = await res.json();
       setMovies(data.results || []);
@@ -60,14 +60,14 @@ export default function SearchMovies() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-10">
       <div className="flex gap-4 mb-6">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Поиск фильмов..."
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm"
+          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-black"
         />
         <button
           onClick={handleSearch}
@@ -77,12 +77,12 @@ export default function SearchMovies() {
         </button>
       </div>
 
-      {loading && <p className="text-gray-500">Загрузка...</p>}
+      {loading && <p className="text-gray-400">Загрузка...</p>}
 
       {!loading && <FilmBlock movies={movies} />}
 
       {!loading && !movies.length && query && (
-        <p className="text-gray-500">Ничего не найдено для «{query}»</p>
+        <p className="text-gray-400">Ничего не найдено для «{query}»</p>
       )}
     </div>
   );
